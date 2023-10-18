@@ -7,6 +7,9 @@ const app = express();
 const server = createServer(app);
 const io = new Server(server);
 
+app.use(logger('dev'));
+app.use(express.static('public'));
+
 io.on('connection', (socket) => {
   console.log(`Se ha conectado un usuario!🙆‍♂️`);
 
@@ -15,14 +18,14 @@ io.on('connection', (socket) => {
   })
 
   socket.on('chat message', (msg) => {
-    io.emit('chat message:', msg )
-    console.log(msg)
-  })
+    io.emit('chat message', msg);
+  });
+
+  socket.on('custom-event', (data) => {
+    // Emitir el evento a todos los clientes conectados (broadcast)
+    io.emit('custom-event', data);
+  });
 });
-
-
-app.use(logger('dev'));
-app.use(express.static('public'));
 
 app.get("/", (req, res) => {
   res.sendFile(process.cwd() + '/client/index.html')
