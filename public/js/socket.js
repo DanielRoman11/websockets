@@ -5,6 +5,7 @@ const socket = io();
 const form = document.getElementById('form');
 const input = document.getElementById('input');
 const messages = document.getElementById('messages');
+const chat = document.getElementById("chat")
 
 form.addEventListener('submit', (e) => {
   e.preventDefault();
@@ -20,5 +21,6 @@ socket.on('chat message', (msg) => {
   const item = document.createElement('p');
   item.textContent = msg;
   messages.appendChild(item);
-  window.scrollTo(0, document.body.scrollHeight);
+
+  chat.scrollTo(0, messages.scrollHeight);
 });

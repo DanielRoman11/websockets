@@ -1,19 +1,25 @@
 :root{
-  --text-dark-color: #323c5a;
-  --text-light-color: #eaecf4;
-  --dark-color: #1e2333;
-  --first-gradient: #455584;
-  --second-gradient: #323c5a;
+  --text-dark-color: #421d06;
+  --text-light-color: #fef6c3;
+  --dark-color: #713a12;
+  --first-gradient: #FDD12E;
+  --second-gradient: #85470e;
+  --third-gradient: #ca7f04;
+  --four-gradient: #a15a07;
 }
 *{
   box-sizing: border-box;
 }
 body{
+  background: linear-gradient(var(--four-gradient),var(--text-light-color));
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
   margin: 0 auto;
-  background: linear-gradient(var(--first-gradient),var(--second-gradient));
   font-size: 1rem;
   color: var(--text-color);
-  min-height: 100dvh;
+  height: 100dvh;
+  max-height: 100dvh;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   display: grid;
   place-content: center;
@@ -25,6 +31,7 @@ body{
 
 #chat{
   margin: 0 auto;
+  max-height: 100%;
   width: 80%;
   position: relative;
   border: 3px solid var(--dark-color);
@@ -32,28 +39,33 @@ body{
   /* padding: 0.5rem 1rem; */
   backdrop-filter: blur(5px);
   background: linear-gradient(var(--second-gradient), var(--first-gradient));
-  overflow-y: auto;
   text-wrap: wrap;
+  overflow: auto;
+  scroll-behavior: smooth;
+  scroll-margin: 0;
 }
 article#messages{
-  color: var(--text-light-color);
+  color: var(--text-dark-color);
   margin: 0;
 } 
 article > p{
   padding: 0.5rem 1rem;
   margin: 0 !important;
 }
-article#messages p:nth-child(2n + 1){background: var(--first-gradient)}
-article#messages p:nth-child(2n + 2){background: var(--dark-color)}
+article#messages p:nth-child(2n + 1){
+  background: linear-gradient(var(--second-gradient), var(--text-dark-color));
+}
+article#messages p:nth-child(2n + 2){
+  text-align: end;
+}
 
 form#form{
   width: 100%;
-  position: absolute;
-  bottom: 10px;
+  position: fixed;
   right: 0;
   display: flex;
   justify-content: space-around;
-  padding: 0 1rem;
+  padding: 1rem;
   gap: 0.5rem;
 }
 input#input{
@@ -96,5 +108,11 @@ input#input{
   }
   #chat{
     width: 1033px;
+  }
+}
+
+@keyframes rotate {
+  100% {
+      transform: rotate(1turn);
   }
 }
