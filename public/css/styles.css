@@ -1,10 +1,9 @@
 :root{
-  --text-dark-color: #473ab6;
-  --text-light-color: #eff2fe;
-  --border-color: #083344;
-  --dark-bg: #083344;
-  --first-gradient: #155e75;
-  --second-gradient: #083344;
+  --text-dark-color: #323c5a;
+  --text-light-color: #eaecf4;
+  --dark-color: #1e2333;
+  --first-gradient: #455584;
+  --second-gradient: #323c5a;
 }
 *{
   box-sizing: border-box;
@@ -28,15 +27,25 @@ body{
   margin: 0 auto;
   width: 80%;
   position: relative;
-  border: 3px solid var(--border-color);
+  border: 3px solid var(--dark-color);
   border-radius: 2px;
-  padding: 0.5rem 1rem;
+  /* padding: 0.5rem 1rem; */
   backdrop-filter: blur(5px);
   background: linear-gradient(var(--second-gradient), var(--first-gradient));
+  overflow-y: auto;
+  text-wrap: wrap;
 }
 article#messages{
   color: var(--text-light-color);
+  margin: 0;
 } 
+article > p{
+  padding: 0.5rem 1rem;
+  margin: 0 !important;
+}
+article#messages p:nth-child(2n + 1){background: var(--first-gradient)}
+article#messages p:nth-child(2n + 2){background: var(--dark-color)}
+
 form#form{
   width: 100%;
   position: absolute;
@@ -49,10 +58,10 @@ form#form{
 }
 input#input{
   width: 100%;
-  background: var(--dark-bg);
+  background: var(--dark-color);
   color: var(--text-light-color);
   font-weight: 700;
-  border: 2px solid var(--border-color);
+  border: 2px solid var(--dark-color);
   border-radius: 0.5rem;
   padding: 0 1rem;
 }
@@ -62,11 +71,11 @@ input#input{
 #form>button{
   font-style: unset;
   width: 100px;
-  border: 2px solid var(--border-color);
+  border: 2px solid var(--dark-color);
   border-radius: 0.5rem;
   font-weight: 700;
   font-size: 0.75rem;
-  background: var(--dark-bg);
+  background: var(--dark-color);
   color: var(--text-light-color);
   padding: 0.5rem 1rem;
   cursor: pointer;

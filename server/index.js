@@ -18,12 +18,8 @@ io.on('connection', (socket) => {
   })
 
   socket.on('chat message', (msg) => {
-    io.emit('chat message', msg);
-  });
-
-  socket.on('custom-event', (data) => {
-    // Emitir el evento a todos los clientes conectados (broadcast)
-    io.emit('custom-event', data);
+    console.log("Recibido Server: ",msg);
+    io.emit('chat message',msg)
   });
 });
 
