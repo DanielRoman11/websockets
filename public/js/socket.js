@@ -22,5 +22,5 @@ socket.on('chat message', (msg) => {
   item.textContent = msg;
   messages.appendChild(item);
 
-  chat.scrollTo(0, messages.scrollHeight);
+  messages.scrollTo(0, messages.scrollHeight);
 });

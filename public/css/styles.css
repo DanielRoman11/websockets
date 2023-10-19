@@ -30,23 +30,25 @@ body{
 }
 
 #chat{
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
   margin: 0 auto;
   max-height: 100%;
   width: 80%;
-  position: relative;
   border: 3px solid var(--dark-color);
   border-radius: 2px;
-  /* padding: 0.5rem 1rem; */
   backdrop-filter: blur(5px);
   background: linear-gradient(var(--second-gradient), var(--first-gradient));
   text-wrap: wrap;
-  overflow: auto;
+  overflow-y: hidden;
   scroll-behavior: smooth;
   scroll-margin: 0;
 }
 article#messages{
   color: var(--text-dark-color);
   margin: 0;
+  overflow-y: auto;
 } 
 article > p{
   padding: 0.5rem 1rem;
@@ -54,17 +56,19 @@ article > p{
 }
 article#messages p:nth-child(2n + 1){
   background: linear-gradient(var(--second-gradient), var(--text-dark-color));
+  color: var(--text-light-color);
 }
 article#messages p:nth-child(2n + 2){
   text-align: end;
+  color: var(--text-dark-color);
 }
 
 form#form{
+  height: 4rem;
   width: 100%;
-  position: fixed;
   right: 0;
+  bottom: 10px;
   display: flex;
-  justify-content: space-around;
   padding: 1rem;
   gap: 0.5rem;
 }
