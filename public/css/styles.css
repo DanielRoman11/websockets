@@ -11,7 +11,7 @@
   box-sizing: border-box;
 }
 body{
-  background: linear-gradient(var(--four-gradient),var(--text-light-color));
+  background-image: radial-gradient(circle at 50% 50%, #292521 0, #131415 50%, #000003 100%);
   background-position: center;
   background-repeat: no-repeat;
   background-attachment: fixed;
@@ -54,20 +54,22 @@ article#messages{
 article > p{
   padding: 0.5rem 1rem;
   margin: 0.5rem 0 !important;
-  border: 2px solid var(--text-dark-color);
   border-radius: 15px;
   width: 200px;
 }
 article#messages p:nth-child(2n + 1){
-  align-self: flex-end;
-  right: 0;
-  background: linear-gradient(var(--second-gradient), var(--text-dark-color));
+  background: #333333;
+  border: 2px solid var(--text-light-color) !important;
   color: var(--text-light-color);
+  align-self: flex-end;
 }
 article#messages p:nth-child(2n + 2){
-  margin: 100%;
-  text-align: end;
+  background: #747373;
+  border: 2px solid var(--dark-color) !important;
   color: var(--text-dark-color);
+}
+article#messages p:nth-child(3n+1){
+  border: 2px solid var(--text-dark-color) !important;
 }
 
 form#form{
@@ -81,7 +83,10 @@ form#form{
 }
 input#input{
   width: 100%;
-  background: var(--dark-color);
+  background-image: linear-gradient(60deg, #423d33 0, #2a2b2d 50%, #111a27 100%);
+  background-position: center;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
   color: var(--text-light-color);
   font-weight: 700;
   border: 2px solid var(--dark-color);
@@ -98,7 +103,7 @@ input#input{
   border-radius: 0.5rem;
   font-weight: 700;
   font-size: 0.75rem;
-  background: var(--dark-color);
+  background-image: linear-gradient(60deg, #423d33 0, #2a2b2d 50%, #111a27 100%);
   color: var(--text-light-color);
   padding: 0.5rem 1rem;
   cursor: pointer;
