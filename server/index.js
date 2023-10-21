@@ -7,10 +7,8 @@ import dotenv from "dotenv";
 dotenv.config()
 
 import { db, dbConnection } from "../db/database.js";
-import { timeStamp } from "node:console";
 
 dbConnection();
-
 
 const app = express();
 const server = createServer(app);
@@ -26,7 +24,7 @@ io.on('connection', async (socket) => {
 
   if (!socket.recovered) {
     const offset = socket.handshake.auth.serverOffset ?? 0 
-    
+
     await db.execute({
       sql: `
         SELECT * FROM messages
