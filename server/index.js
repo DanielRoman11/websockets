@@ -66,6 +66,7 @@ io.on('connection', async (socket) => {
 
             fecha.setHours(fecha.getHours() - 5);
             
+            // ! TODO: BUG IMPORANTE FECHA DE BORRA!
             io.emit('chat message', msg, result.lastInsertRowid.toString(), fecha.toLocaleTimeString())
             console.log("mensaje: ", msg, ", hora: ", fecha.toLocaleTimeString());
           })
