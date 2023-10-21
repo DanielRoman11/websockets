@@ -4,14 +4,13 @@ import { Server } from "socket.io";
 import { createServer} from "node:http";
 import { exit } from "node:process";
 import dotenv from "dotenv";
+dotenv.config()
 
 import { db, dbConnection } from "../db/database.js";
-import { log } from "node:console";
-
+import { timeStamp } from "node:console";
 
 dbConnection();
 
-dotenv.config()
 
 const app = express();
 const server = createServer(app);
@@ -33,8 +32,11 @@ io.on('connection', async (socket) => {
       args: [ socket.handshake.auth.serverOffset ?? 0 ]
     })
       .then((result) => {
+        result.rows.map(row => {
+          console.log(row.timestamp.slice(12));
+        })
         result.rows.forEach(row => 
-          socket.emit('chat message', row.content, row.id.toString())
+          socket.emit('chat message', row.content, row.id.toString(), row.timestamp.slice(12))
         )
       }).catch((err) => {
         console.error(err);
@@ -47,35 +49,21 @@ io.on('connection', async (socket) => {
   })
 
   socket.on('chat message', async(msg) => {
-    await db.execute({
-      sql: 'INSERT INTO messages (content) VALUES (:msg);',
-      args: { msg }
-    })
-      .then( async result => {
-        await db.execute({
-          sql: `
-            SELECT
-              timestamp
-            FROM messages
-            WHERE id = (:id);
-          `,
-          args: { id: result.lastInsertRowid}
-        })
-          .then( data => {
-            const fecha = new Date(data.rows[0].timestamp)
+    const currentDate = new Date()
 
-            fecha.setHours(fecha.getHours() - 5);
-            
-            // ! TODO: BUG IMPORANTE FECHA DE BORRA!
-            io.emit('chat message', msg, result.lastInsertRowid.toString(), fecha.toLocaleTimeString())
-            console.log("mensaje: ", msg, ", hora: ", fecha.toLocaleTimeString());
-          })
+    await db.execute({
+      sql: 'INSERT INTO messages (content, timestamp) VALUES (:msg, :timestamp);',
+      args: { msg, timestamp: currentDate.toLocaleString('es-CO', {timeZone: 'America/Bogota'}) }
+    })
+      .then(result => {
+        io.emit('chat message', msg, result.lastInsertRowid.toString(), currentDate.toLocaleTimeString('es-CO', {timeZone: 'America/Bogota'}))
+
+        console.log("mensaje: ", msg, ", hora: ", currentDate.toLocaleTimeString('es-CO', {timeZone: 'America/Bogota'}));
       })
       .catch(error => {
         console.error("Hubo un error al enviar el mensaje: ", error);
       });
   });
-
 });
 
 app.get("/", (req, res) => {
