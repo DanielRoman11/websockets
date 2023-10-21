@@ -33,11 +33,9 @@ io.on('connection', async (socket) => {
     })
       .then((result) => {
         result.rows.map(row => {
-          console.log(row.timestamp.slice(12));
-        })
-        result.rows.forEach(row => 
-          socket.emit('chat message', row.content, row.id.toString(), row.timestamp.slice(12))
-        )
+          // console.log(row.timestamp.slice(12))
+          
+          socket.emit('chat message', row.content, row.id.toString(), row.timestamp.slice(12))})
       }).catch((err) => {
         console.error(err);
         exit(1)
