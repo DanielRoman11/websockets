@@ -6,6 +6,7 @@ import { exit } from "node:process";
 import dotenv from "dotenv";
 
 import { db, dbConnection } from "../db/database.js";
+import { log } from "node:console";
 
 
 dbConnection();
@@ -50,9 +51,24 @@ io.on('connection', async (socket) => {
       sql: 'INSERT INTO messages (content) VALUES (:msg);',
       args: { msg }
     })
-      .then( result => {
-        io.emit('chat message', msg, result.lastInsertRowid.toString())
-        console.log("Server recibió el mensaje: ",msg);
+      .then( async result => {
+        await db.execute({
+          sql: `
+            SELECT
+              timestamp
+            FROM messages
+            WHERE id = (:id);
+          `,
+          args: { id: result.lastInsertRowid}
+        })
+          .then( data => {
+            const fecha = new Date(data.rows[0].timestamp)
+
+            fecha.setHours(fecha.getHours() - 5);
+            
+            io.emit('chat message', msg, result.lastInsertRowid.toString(), fecha.toLocaleTimeString())
+            console.log("mensaje: ", msg, ", hora: ", fecha.toLocaleTimeString());
+          })
       })
       .catch(error => {
         console.error("Hubo un error al enviar el mensaje: ", error);

@@ -20,9 +20,12 @@ form.addEventListener('submit', function (e) {
     input.value = '';
   }
 });
-socket.on('chat message', function (msg, serverOffset) {
+socket.on('chat message', function (msg, serverOffset, hora) {
   var item = document.createElement('p');
+  var time = document.createElement('span');
   item.textContent = msg;
+  time.textContent = hora;
+  item.appendChild(time);
   messages.appendChild(item);
   messages.scrollTo(0, messages.scrollHeight);
   socket.auth.serverOffset = serverOffset;

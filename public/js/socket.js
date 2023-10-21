@@ -20,9 +20,14 @@ form.addEventListener('submit', (e) => {
   }
 });
 
-socket.on('chat message', (msg, serverOffset) => {
+socket.on('chat message', (msg, serverOffset, hora) => {
   const item = document.createElement('p');
+  const time =document.createElement('span');
+  
   item.textContent = msg;
+  time.textContent = hora;
+
+  item.appendChild(time)
   messages.appendChild(item);
 
   messages.scrollTo(0, messages.scrollHeight);
