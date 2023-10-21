@@ -5,17 +5,10 @@ import { createServer} from "node:http";
 import { exit } from "node:process";
 import dotenv from "dotenv";
 
-import db from "../db/database.js";
+import { db, dbConnection } from "../db/database.js";
 
 
-await db.sync()
-  .then(() =>{
-    console.log("Conexión a la Database 🙆‍♂️");
-  })
-  .catch((error) =>{
-    console.error("No hay conexión a la Database: ", error)
-    exit(1)
-  })
+dbConnection();
 
 dotenv.config()
 
@@ -28,16 +21,33 @@ const io = new Server(server, {
 app.use(logger('dev'));
 app.use(express.static('public'));
 
-io.on('connection', (socket) => {
+io.on('connection', async (socket) => {
   console.log(`Se ha conectado un usuario!🙆‍♂️`);
+
+  if (!socket.recovered) {
+    await db.execute({
+      sql: `
+        SELECT * FROM messages
+        WHERE id > ?`,
+      args: [ socket.handshake.auth.serverOffset ?? 0 ]
+    })
+      .then((result) => {
+        result.rows.forEach(row => 
+          socket.emit('chat message', row.content, row.id.toString())
+        )
+      }).catch((err) => {
+        console.error(err);
+        exit(1)
+      });
+  }
 
   socket.on('disconnect', () => {
     console.log(`Se ha desconectado un usuario! 🙅‍♂️`);
   })
 
-  socket.on('chat message', async(msg) => {    
+  socket.on('chat message', async(msg) => {
     await db.execute({
-      sql: `INSERT INTO messages (content) VALUES (:msg)`,
+      sql: 'INSERT INTO messages (content) VALUES (:msg);',
       args: { msg }
     })
       .then( result => {
@@ -46,9 +56,9 @@ io.on('connection', (socket) => {
       })
       .catch(error => {
         console.error("Hubo un error al enviar el mensaje: ", error);
-      })
-      
+      });
   });
+
 });
 
 app.get("/", (req, res) => {
