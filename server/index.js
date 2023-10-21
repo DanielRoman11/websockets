@@ -25,11 +25,13 @@ io.on('connection', async (socket) => {
   console.log(`Se ha conectado un usuario!🙆‍♂️`);
 
   if (!socket.recovered) {
+    const offset = socket.handshake.auth.serverOffset ?? 0 
+    
     await db.execute({
       sql: `
         SELECT * FROM messages
-        WHERE id > ?`,
-      args: [ socket.handshake.auth.serverOffset ?? 0 ]
+        WHERE id > (:offset)`,
+      args: { offset }
     })
       .then((result) => {
         result.rows.map(row => {
