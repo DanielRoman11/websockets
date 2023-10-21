@@ -2,7 +2,7 @@
 
 var _socketIoEsmMin = require("https://cdn.socket.io/4.3.0/socket.io.esm.min.js");
 
-var socket = (0, _socketIoEsmMin.io)({
+var socket = (0, _socketIoEsmMin.io)("http://localhost:3000/", {
   auth: {
     token: '123',
     username: 'danielroman',
