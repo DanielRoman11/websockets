@@ -7,6 +7,7 @@ import dotenv from "dotenv";
 dotenv.config()
 
 import { db, dbConnection } from "../db/database.js";
+import router from "./routes/user.Routes.js";
 
 dbConnection();
 
@@ -64,9 +65,7 @@ io.on('connection', async (socket) => {
   });
 });
 
-app.get("/", (req, res) => {
-  res.sendFile(process.cwd() + '/client/index.html')
-})
+app.set("/auth", router)
 
 let port = process.env.PORT || 3000
 
