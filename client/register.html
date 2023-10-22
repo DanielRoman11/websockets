@@ -4,10 +4,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" type="text/css" href="/css/auth.css">
+
   <title>Chattest</title>
 </head>
 <body>
   <section class="form_wrapper">
+    <div id="serverErrors" class="error-message"></div>
     <article class="form_container">
       <div class="title_container">
         <h2>Chattest - Formulario de Registro</h2>
@@ -55,12 +57,8 @@
                 </article>
               <div class="input_field checkbox_option">
                 <input type="checkbox" id="cb1">
-            <label for="cb1">Acepto los términos y condiciones</label>
+                <label for="cb1">Acepto los términos y condiciones</label>
               </div>
-            <div class="input_field checkbox_option">
-                <input type="checkbox" id="cb2">
-                <label for="cb2">I want to receive the newsletter</label>
-            </div>
             <input class="button" type="submit" value="Register" />
           </form>
         </div>
@@ -69,7 +67,5 @@
   </section>
   <p class="credit">CSS Design by <a href="http://www.designtheway.com" target="_blank">Design the way</a></p>
 </body>
-<script>
-  document.getElementById('csrf-token').value = '<%= csrfToken %>'
-</script>
+
 </html>
