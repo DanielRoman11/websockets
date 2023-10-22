@@ -8,9 +8,19 @@ export const db = createClient({
   authToken: process.env.DB_TOKEN
 });
 
+export async function dbConnection() {
+  db.sync()
+   .then(() =>{
+     console.log("Conexión a la Database 🙆‍♂️");
+   })
+   .catch((error) =>{
+     console.error("No hay conexión a la Database: ", error)
+     exit(1);
+   })
+}
 
 await Promise.all([
-  await db.execute(`
+   db.execute(`
     -- Crear la tabla de chats
     CREATE TABLE IF NOT EXISTS messages (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -22,16 +32,18 @@ await Promise.all([
       FOREIGN KEY (user_id) REFERENCES users(id)
   );
   `),
-  await db.execute(`
+   db.execute(`
     -- Crear la tabla de usuarios
     CREATE TABLE IF NOT EXISTS users (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
+        email TEXT NOT NULL,
         username TEXT NOT NULL,
+        lastname TEXT NOL NULL,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );
   `),
-  await db.execute(`
+   db.execute(`
     -- Crear la tabla de mensajes
     CREATE TABLE IF NOT EXISTS messages (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -43,7 +55,7 @@ await Promise.all([
         FOREIGN KEY (user_id) REFERENCES users(id)
     );
   `),
-  await db.execute(`
+   db.execute(`
     -- Crear la tabla de participantes de chat
     CREATE TABLE IF NOT EXISTS chat_participants (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -53,7 +65,7 @@ await Promise.all([
         FOREIGN KEY (user_id) REFERENCES users(id)
     );
   `),
-  await db.execute(`
+   db.execute(`
     -- Crear la tabla de notificaciones
     CREATE TABLE IF NOT EXISTS notifications (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -72,13 +84,4 @@ await Promise.all([
     exit(1)
   })
 
-export async function dbConnection() {
-  await db.sync()
-    .then(() =>{
-      console.log("Conexión a la Database 🙆‍♂️");
-    })
-    .catch((error) =>{
-      console.error("No hay conexión a la Database: ", error)
-      exit(1);
-    })
-}
+

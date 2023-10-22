@@ -1,28 +1,37 @@
 import express, { urlencoded } from "express";
+import { Server } from "socket.io";
 import logger from "morgan";
 import cookieParser from "cookie-parser";
+import { createServer } from 'node:http';
 import dotenv from "dotenv";
+import csurf from "csurf";
 dotenv.config()
 
 import { dbConnection } from "./db/database.js";
 import auth from "./routes/user.Routes.js";
-import { socketConnection } from "./websocket/socket.js";
-import csurf from "csurf";
+import { socketFunctions } from "./websocket/socket.js";
+import chat from "./routes/chat.Routes.js";
 
 
 dbConnection();
-socketConnection();
 
 const app = express();
+app.use(express.urlencoded({ extended: false }));
+app.use(express.static('public'));
 
-app.use(express.static(urlencoded({ extended: false  })));
 app.use(cookieParser());
 app.use(express.json());
 app.use(logger('dev'));
-app.use(express.static('public'));
 app.use(csurf({ cookie: true  }));
 
-app.set("/auth", auth);
+app.use("/auth", auth);
+app.use("/broadcast", chat);
+
+const server = createServer(app);
+export const io = new Server(server, {
+  connectionStateRecovery: {}
+});
+io.on('connection', socketFunctions); 
 
 const port = process.env.PORT || 3000
 server.listen(port, () =>{

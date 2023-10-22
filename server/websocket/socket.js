@@ -1,14 +1,9 @@
-import { Server } from "socket.io";
-import { createServer} from "node:http";
 import { exit } from "node:process";
 import { db } from "../db/database.js";
+import { io } from "../index.js";
 
-const server = createServer(app);
-const io = new Server(server, {
-  connectionStateRecovery: {}
-});
 
-const socketFunctions = async (socket) => {
+export const socketFunctions = async (socket) => {
   console.log(`Se ha conectado un usuario!🙆‍♂️`);
 
   if (!socket.recovered) {
@@ -22,7 +17,6 @@ const socketFunctions = async (socket) => {
     })
       .then((result) => {
         result.rows.map(row => {
-          // console.log(row.timestamp.slice(12))
           
           socket.emit('chat message', row.content, row.id.toString(), row.timestamp.slice(12))})
       }).catch((err) => {
@@ -39,8 +33,8 @@ const socketFunctions = async (socket) => {
     const currentDate = new Date()
 
     await db.execute({
-      sql: 'INSERT INTO messages (content, timestamp) VALUES (:msg, :timestamp);',
-      args: { msg, timestamp: currentDate.toLocaleString('es-CO', {timeZone: 'America/Bogota'}) }
+      sql: 'INSERT INTO messages (content, timestamp, chat_id, user_id ) VALUES (:msg, :timestamp, :chat_id, :user_id);',
+      args: { msg, timestamp: currentDate.toLocaleString('es-CO', {timeZone: 'America/Bogota'}), chat_id: '2', user_id: '1' }
     })
       .then(result => {
         io.emit('chat message', msg, result.lastInsertRowid.toString(), currentDate.toLocaleTimeString('es-CO', {timeZone: 'America/Bogota'}))
@@ -51,8 +45,4 @@ const socketFunctions = async (socket) => {
         console.error("Hubo un error al enviar el mensaje: ", error);
       });
   });
-}
-
-export function socketConnection() {
-  return io.on('connection', socketFunctions); 
 }
