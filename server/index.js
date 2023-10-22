@@ -1,6 +1,7 @@
-import express from "express";
+import express, { urlencoded } from "express";
 import logger from "morgan";
 import { Server } from "socket.io";
+import cookieParser from "cookie-parser";
 import { createServer} from "node:http";
 import { exit } from "node:process";
 import dotenv from "dotenv";
@@ -12,11 +13,14 @@ import router from "./routes/user.Routes.js";
 dbConnection();
 
 const app = express();
+
 const server = createServer(app);
 const io = new Server(server, {
   connectionStateRecovery: {}
 });
 
+app.use(cookieParser());
+app.use(express.static(urlencoded({ extended: false  })));
 app.use(logger('dev'));
 app.use(express.static('public'));
 
