@@ -1,20 +1,21 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" type="text/css" href="/css/auth.css">
-  <title>Document</title>
+  <title>Chattest</title>
 </head>
 <body>
-  <div class="form_wrapper">
-    <div class="form_container">
+  <section class="form_wrapper">
+    <article class="form_container">
       <div class="title_container">
-        <h2>Responsive Registration Form</h2>
+        <h2>Chattest - Formulario de Registro</h2>
       </div>
-      <div class="row clearfix">
+      <fieldset class="row clearfix">
         <div class="">
-          <form>
+          <form class="form">
+            <input type="hidden" name="_csrf" value="" id="csrf-token">
             <div class="input_field"> <span><i aria-hidden="true" class="fa fa-envelope"></i></span>
               <input type="email" name="email" placeholder="Email" required />
             </div>
@@ -22,7 +23,7 @@
               <input type="password" name="password" placeholder="Password" required />
             </div>
             <div class="input_field"> <span><i aria-hidden="true" class="fa fa-lock"></i></span>
-              <input type="password" name="password" placeholder="Re-type Password" required />
+              <input type="password" name="reppassword" placeholder="Re-type Password" required />
             </div>
             <div class="row clearfix">
               <div class="col_half">
@@ -36,34 +37,39 @@
                 </div>
               </div>
             </div>
-                <div class="input_field radio_option">
-                <input type="radio" name="radiogroup1" id="rd1">
-                <label for="rd1">Male</label>
-                <input type="radio" name="radiogroup1" id="rd2">
-                <label for="rd2">Female</label>
-                </div>
-                <div class="input_field select_option">
+                <article class="input_field select_option">
                   <select>
                     <option>Select a country</option>
-                    <option>Option 1</option>
-                    <option>Option 2</option>
+                    <option>Colombia</option>
+                    <option>Ecuador</option>
+                    <option>Venezuela</option>
+                    <option>España</option>
+                    <option>Guatemala</option>
+                    <option>Panamá</option>
+                    <option>Argentina</option>
+                    <option>Chile</option>
+                    <option>Perú</option>
+                    <option>Bolivia</option>
                   </select>
                   <div class="select_arrow"></div>
-                </div>
+                </article>
               <div class="input_field checkbox_option">
                 <input type="checkbox" id="cb1">
-            <label for="cb1">I agree with terms and conditions</label>
+            <label for="cb1">Acepto los términos y condiciones</label>
               </div>
-              <div class="input_field checkbox_option">
+            <div class="input_field checkbox_option">
                 <input type="checkbox" id="cb2">
-            <label for="cb2">I want to receive the newsletter</label>
-              </div>
+                <label for="cb2">I want to receive the newsletter</label>
+            </div>
             <input class="button" type="submit" value="Register" />
           </form>
         </div>
-      </div>
-    </div>
-  </div>
-  <p class="credit">Developed by <a href="http://www.designtheway.com" target="_blank">Design the way</a></p>
+      </fieldset>
+    </article>
+  </section>
+  <p class="credit">CSS Design by <a href="http://www.designtheway.com" target="_blank">Design the way</a></p>
 </body>
+<script>
+  document.getElementById('csrf-token').value = '<%= csrfToken %>'
+</script>
 </html>
