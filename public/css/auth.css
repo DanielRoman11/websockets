@@ -1,7 +1,10 @@
 body {
   font-family: Verdana, Geneva, sans-serif;
   font-size: 14px;
-  background: #f2f2f2;
+  background-image: radial-gradient(circle at 50% 50%, #292521 0, #131415 50%, #000003 100%);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
 }
 .clearfix:after {
   content: "";
@@ -11,7 +14,8 @@ body {
   height: 0;
 }
 .form_wrapper {
-  background: #fff;
+  background-color: #00000025;
+  backdrop-filter: blur(15px);
   width: 400px;
   max-width: 100%;
   box-sizing: border-box;
@@ -41,6 +45,7 @@ body {
 .form_wrapper .title_container {
   text-align: center;
   padding-bottom: 15px;
+  color: #fafafa;
 }
 .form_wrapper h3 {
   font-size: 1.1em;
