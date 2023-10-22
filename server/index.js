@@ -6,13 +6,14 @@ dotenv.config()
 
 import { dbConnection } from "./db/database.js";
 import auth from "./routes/user.Routes.js";
-import { socketConnection } from "./controllers/websockets.Controller.js";
+import { socketConnection } from "./websocket/socket.js";
+
 
 dbConnection();
 
 const app = express();
 
-socketConnection()
+socketConnection();
 
 app.use(cookieParser());
 app.use(express.static(urlencoded({ extended: false  })));

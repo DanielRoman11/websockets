@@ -8,10 +8,6 @@ const io = new Server(server, {
   connectionStateRecovery: {}
 });
 
-export function socketConnection() {
-  return io.on('connection', socketFunctions); 
-}
-
 const socketFunctions = async (socket) => {
   console.log(`Se ha conectado un usuario!🙆‍♂️`);
 
@@ -57,3 +53,6 @@ const socketFunctions = async (socket) => {
   });
 }
 
+export function socketConnection() {
+  return io.on('connection', socketFunctions); 
+}
