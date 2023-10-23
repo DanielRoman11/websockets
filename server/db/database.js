@@ -98,3 +98,7 @@ await Promise.all([
   db.execute(`INSERT INTO errors (content) VALUES ('Password invalido')`),
   db.execute(`INSERT INTO errors (content) VALUES ('Password no coinciden')`),
 ])
+  .catch(error => {
+    console.error(error);
+    exit(1)
+  })
