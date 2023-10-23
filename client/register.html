@@ -4,66 +4,44 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" type="text/css" href="/css/auth.css">
-
-  <title>Chattest</title>
+  <script type="module" src="/js/register.socket.js"></script>
+  <title>ChatTest</title>
 </head>
 <body>
   <section class="form_wrapper">
-    <div id="serverErrors" class="error-message"></div>
     <article class="form_container">
       <div class="title_container">
         <h2>ChatTest - Registro</h2>
       </div>
-      <div class="row clearfix" action="/register" method="post">
-        <div class="">
-          <form class="form">
+      <div id="errorMessages" class="error-messages" style="display: none;">
+        <ul id="serverErrors"></ul>
+      </div>      
+      <div class="row clearfix" >
+          <form id="form" method="post" novalidate>
             <input type="hidden" name="_csrf" value="" id="csrf-token">
-            <div class="input_field"> <span><i aria-hidden="true" class="fa fa-envelope"></i></span>
+            <div class="input_field">
               <input type="email" name="email" placeholder="Email" required />
             </div>
-            <div class="input_field"> <span><i aria-hidden="true" class="fa fa-lock"></i></span>
+            <div class="input_field">
               <input type="password" name="password" placeholder="Password" required />
             </div>
-            <div class="input_field"> <span><i aria-hidden="true" class="fa fa-lock"></i></span>
+            <div class="input_field">
               <input type="password" name="reppassword" placeholder="Re-type Password" required />
             </div>
-            <div class="row clearfix">
-              <div class="col_half">
-                <div class="input_field"> <span><i aria-hidden="true" class="fa fa-user"></i></span>
+              <div class="row clearfix">
+                <div class="col_half">
                   <input type="text" name="name" placeholder="First Name" />
                 </div>
-              </div>
-              <div class="col_half ">
-                  <input type="text" name="name" placeholder="Last Name" required />
+                <div class="col_half">
+                  <input type="text" name="lastname" placeholder="Last Name" required />
                 </div>
               </div>
             </div>
-                <article class="input_field select_option">
-                  <select>
-                    <option>Select a country</option>
-                    <option>Colombia</option>
-                    <option>Ecuador</option>
-                    <option>Venezuela</option>
-                    <option>España</option>
-                    <option>Guatemala</option>
-                    <option>Panamá</option>
-                    <option>Argentina</option>
-                    <option>Chile</option>
-                    <option>Perú</option>
-                    <option>Bolivia</option>
-                  </select>
-                  <div class="select_arrow"></div>
-                </article>
-              <div class="input_field checkbox_option">
-                <input type="checkbox" id="cb1">
-                <label for="cb1" style="color: #fff">Acepto los términos y condiciones</label>
-              </div>
             <input class="button" type="submit" value="Registrarse" />
           </form>
-        </div>
       </div>
     </article>
   </section>
-  <p class="credit">CSS Form Design by <a href="http://www.designtheway.com" target="_blank">Design the way</a></p>
+  <p class="credit" style="font-size: xx-small;">CSS Animation by <a href="http://www.designtheway.com" target="_blank">Design the way</a></p>
 </body>
 </html>

@@ -3,7 +3,7 @@ import { db } from "../db/database.js";
 import { io } from "../index.js";
 
 
-export const socketFunctions = async (socket) => {
+export const chatFunctions = async (socket) => {
   console.log(`Se ha conectado un usuario!🙆‍♂️`);
 
   if (!socket.recovered) {
@@ -28,6 +28,13 @@ export const socketFunctions = async (socket) => {
   socket.on('disconnect', () => {
     console.log(`Se ha desconectado un usuario! 🙅‍♂️`);
   })
+  socket.on("disconnecting", (reason) => {
+    for (const room of socket.rooms) {
+      if (room !== socket.id) {
+        socket.to(room).emit("user has left", socket.id);
+      }
+    }
+  });
 
   socket.on('chat message', async(msg) => {
     const currentDate = new Date()
@@ -46,3 +53,5 @@ export const socketFunctions = async (socket) => {
       });
   });
 }
+
+// export 

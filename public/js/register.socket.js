@@ -1,45 +1,34 @@
 import { io } from "https://cdn.socket.io/4.3.0/socket.io.esm.min.js";
 
-const socket = io("http://localhost:3000/",{
-  auth: {
-    token: '123',
-    username: 'danielroman',
-    serverOffset: 0
+const socket = io("http://localhost:3000/");
+
+const form = document.getElementById('form');
+
+const name = document.getElementById('name')
+const lastname = document.getElementById('lastname')
+const email = document.getElementById('email')
+const password = document.getElementById('password')
+const reppassword = document.getElementById('reppassword')
+
+
+form.addEventListener('submit', (e) => {
+  e.preventDefault();
+  if (name.value) {
+    
+    socket.emit('chat message', );
+    input.value = '';
   }
 });
 
-const form = document.getElementById("form");
-
-form.addEventListener("submit", e => {
-  const serverErrors = document.getElementById('serverErrors');
-  if (serverErrors) serverErrors.style.display = 'none';
+socket.on('chat message', (msg) => {
+  const item = document.createElement('p');
+  const time =document.createElement('span');
   
-  fetch('/registro', {
-    method: 'POST',
-    body: new FormData(document.querySelector('form')),
-  })
-    .then((response) => {
-      if (response.status === 200) {
-        console.log('Registro exitoso');
-      } else if (response.status === 400) {
-        return response.json();
-      } else {
-        console.error('Error inesperado: ' + response.status);
-      }
-    })
-    .then((data) => {
-      if (data && data.error) {
-        const serverErrors = document.getElementById('serverErrors');
-        serverErrors.innerText = data.error;
-        serverErrors.style.display = 'block';
-      }
-    })
-    .catch((error) => {
-      console.error('Error de red: ' + error);
-      throw new Error
-    });
+  item.textContent = msg;
 
-  e.preventDefault(); 
+  item.appendChild(time)
+  messages.appendChild(item);
+
+  messages.scrollTo(0, messages.scrollHeight);
+  socket.auth.serverOffset = serverOffset;
 });
-
-document.getElementById('csrf-token').value = '<%= csrfToken %>'

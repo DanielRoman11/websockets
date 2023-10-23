@@ -1,4 +1,5 @@
-import e from "express";
+import { db } from "../db/database.js";
+import { io } from "../index.js";
 
 export const registerUser = (req, res) => {
   res.sendFile(process.cwd() + '/client/register.html', {
@@ -6,18 +7,31 @@ export const registerUser = (req, res) => {
   });
 }
 
-export const resgisterUserPost = (req, res) => {
+export const registerUserPost = async(req, res) => {
   const { name, lastname, email, password, reppassword  } = req.body;
 
   const userRegex = /^[A-Za-z]{5,20}$/
   const passwordRegex = /^\w{6,}$/g
-  const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.(com|es|co|org|org|net|gov|edu|info){2,}$/
+  const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.(com|es|co|org|org|net|gov|edu|info|io){2,}$/
 
-  if(!userRegex.test(name) || !userRegex.test(lastname)) return res.status(400).json({error: 'Nombre o apellido son inválido'})
-  if(!passwordRegex.test(password)) return res.status(400).json({error: 'Password de mínimo 6 caracteres'})
-  if(!emailRegex.test(email)) return res.status(400).json({error: 'La dirección de correo proporcionada es incorrecta'})
-  if(password !== reppassword) return res.status(400).json({error: "Las contraseñas no coinciden"})
+  const serverErrors = []
 
-  res.redirect("/")
+  if(!emailRegex.test(email)) serverErrors.push('Email inválido');
+  if(!passwordRegex.test(password)) serverErrors.push('Password inválido');
+  if(password !== reppassword) serverErrors.push('Las contraseñas no coinciden inválido');
+  if(!userRegex.test(name) || !userRegex.test(lastname)) serverErrors.push('Nombre o Apellido inválido');
 
+
+  if (serverErrors.length){
+    io.on('connection', socket => {
+      socket.emit('serverErrors', serverErrors)
+    })
+  }
+
+  await db.execute({
+    sql: `INSERT INTO users (email, username, lastname) VALUES (:email, :name, :lastname);`,
+    args: { email, name, lastname  }
+  })
+
+  res.redirect('/broadcast');
 }

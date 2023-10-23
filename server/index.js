@@ -9,7 +9,6 @@ dotenv.config()
 
 import { dbConnection } from "./db/database.js";
 import auth from "./routes/user.Routes.js";
-import { socketFunctions } from "./websocket/socket.js";
 import chat from "./routes/chat.Routes.js";
 
 
@@ -30,8 +29,7 @@ app.use("/broadcast", chat);
 const server = createServer(app);
 export const io = new Server(server, {
   connectionStateRecovery: {}
-});
-io.on('connection', socketFunctions); 
+}); 
 
 const port = process.env.PORT || 3000
 server.listen(port, () =>{
