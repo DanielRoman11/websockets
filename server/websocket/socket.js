@@ -37,7 +37,7 @@ export const chatFunctions = async (socket) => {
   });
 
   socket.on('chat message', async(msg) => {
-    const currentDate = new Date()
+    const currentDate = new Date();
 
     await db.execute({
       sql: 'INSERT INTO messages (content, timestamp, chat_id, user_id ) VALUES (:msg, :timestamp, :chat_id, :user_id);',

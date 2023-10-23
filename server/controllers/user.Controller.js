@@ -28,10 +28,12 @@ export const registerUserPost = async(req, res) => {
     })
   }
 
-  await db.execute({
+  const user = await db.execute({
     sql: `INSERT INTO users (email, username, lastname) VALUES (:email, :name, :lastname);`,
     args: { email, name, lastname  }
   })
 
-  res.redirect('/broadcast');
+  console.log(user);
+
+  // res.redirect('/broadcast');
 }

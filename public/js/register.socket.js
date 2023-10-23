@@ -13,21 +13,26 @@ const reppassword = document.getElementById('reppassword')
 
 form.addEventListener('submit', (e) => {
   e.preventDefault();
-  if (name.value) {
-    
-    socket.emit('chat message', );
-    input.value = '';
+
+  const data = {
+    email: email.value,
+    name: name.value,
+    lastname: lastname.value,
+    password: name.value,
+  }
+
+  if (!name.value) {
+    console.log("Enviando!");
+    socket.emit('chat message', data);
+    name.value = '';
   }
 });
 
 socket.on('chat message', (msg) => {
   const item = document.createElement('p');
-  const time =document.createElement('span');
-  
   item.textContent = msg;
 
-  item.appendChild(time)
-  messages.appendChild(item);
+  form.appendChild(item);
 
   messages.scrollTo(0, messages.scrollHeight);
   socket.auth.serverOffset = serverOffset;
