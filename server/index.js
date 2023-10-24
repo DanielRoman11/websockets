@@ -17,14 +17,13 @@ dbConnection();
 const app = express();
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static('public'));
-
 app.use(cookieParser());
 app.use(express.json());
 app.use(logger('dev'));
 app.use(csurf({ cookie: true  }));
 
-app.use("/auth", auth);
-app.use("/broadcast", chat);
+app.use("/api/auth", auth);
+app.use("/api/broadcast", chat);
 
 const server = createServer(app);
 export const io = new Server(server, {
