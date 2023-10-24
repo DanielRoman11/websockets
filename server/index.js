@@ -4,7 +4,6 @@ import logger from "morgan";
 import cookieParser from "cookie-parser";
 import { createServer } from 'node:http';
 import dotenv from "dotenv";
-import csurf from "csurf";
 dotenv.config()
 
 import { dbConnection } from "./db/database.js";
@@ -20,10 +19,9 @@ app.use(express.static('public'));
 app.use(cookieParser());
 app.use(express.json());
 app.use(logger('dev'));
-app.use(csurf({ cookie: true  }));
 
-app.use("/api/auth", auth);
-app.use("/api/broadcast", chat);
+app.use("/auth", auth);
+app.use("/broadcast", chat);
 
 const server = createServer(app);
 export const io = new Server(server, {

@@ -1,3 +1,5 @@
+import jwt from "jsonwebtoken";
+
 export const createJWT = (_id) => {
   const jwtkey = process.env.JWT_SECRET_KEY;
 
