@@ -20,7 +20,8 @@ export async function CreateDatabases() {
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         email TEXT NOT NULL UNIQUE,
         username TEXT NOT NULL,
-        lastname TEXT NOL NULL,
+        lastname TEXT NOT NULL,
+        password TEXT NOT NULL,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       );
