@@ -27,40 +27,39 @@ export const registerUser = async(req, res) => {
     })
     console.log(email);
     console.log(user);
-    if (user.rows[0] === undefined) 
-    return res.status(400).json({ error: "Email en uso" });
-  
-    if (user.rows[0].email.toString() === email) {
-      return res.status(400).json({ error: "Email en uso" });
-    }  
+    if (user.rows[0] !== undefined) { 
+      if (user.rows[0].email.toString() === email) {
+        return res.status(400).json({ error: "Email en uso" });
+      }  
+    }
   }catch(error){
     console.error("Algo salio mal! ",error);
     return res.status(500).json({msg: "Error en el servidor"})
   }
   
   try{
-  await bcrypt.genSalt(10)
-    .then(async salt => {
-      await bcrypt.hash(password, salt)
-        .then(async hashPassword => {
-          const currentDate = new Date();
-          console.log(typeof hashPassword)
-          await db.execute({
-            sql: 
-            `INSERT INTO users 
-              (email, username, lastname, password, created_at, updated_at ) 
-            VALUES (:email, :username, :lastname, :newPassword, :created_at, :updated_at);`,
-            args: { 
-              email: email,
-              username: name,
-              lastname: lastname,
-              newPassword: hashPassword,
-              created_at: currentDate.toLocaleString('es-CO', {timeZone: 'America/Bogota'}), 
-              updated_at: currentDate.toLocaleString('es-CO', {timeZone: 'America/Bogota'}) 
-            }
+    await bcrypt.genSalt(10)
+      .then(async salt => {
+        await bcrypt.hash(password, salt)
+          .then(async hashPassword => {
+            const currentDate = new Date();
+            console.log(typeof hashPassword)
+            await db.execute({
+              sql: 
+              `INSERT INTO users 
+                (email, username, lastname, password, created_at, updated_at ) 
+              VALUES (:email, :username, :lastname, :newPassword, :created_at, :updated_at);`,
+              args: { 
+                email: email,
+                username: name,
+                lastname: lastname,
+                newPassword: hashPassword,
+                created_at: currentDate.toLocaleString('es-CO', {timeZone: 'America/Bogota'}), 
+                updated_at: currentDate.toLocaleString('es-CO', {timeZone: 'America/Bogota'}) 
+              }
+            })
           })
-        })
-    })
+      })
   }catch(error) {
     console.error("No fue posible crear el usuario! ", error);
     return res.status(500).json({error: "Error en el servidor!"})
