@@ -11,11 +11,11 @@ export const db = createClient({
 
 export async function dbConnection() {
   db.sync()
-   .then(console.log("Conexión a la Database 🙆‍♂️"))
-   .catch(error =>{
-     console.error("No hay conexión a la Database: ", error)
-     exit(1);
-   })
+    .then(console.log("Conexión a la Database 🙆‍♂️"))
+    .catch(error =>{
+      console.error("No hay conexión a la Database: ", error)
+      exit(2);
+    })
 }
 
 CreateDatabases();
