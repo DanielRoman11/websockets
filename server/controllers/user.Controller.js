@@ -25,17 +25,26 @@ export const registerUser = async(req, res) => {
       `,
       args: { email }
     })
-    if (user.rows[0].email.toString() === email.toString()) {
+    console.log(email);
+    console.log(user);
+    if (user.rows[0] === undefined) 
+    return res.status(400).json({ error: "Email en uso" });
+  
+    if (user.rows[0].email.toString() === email) {
       return res.status(400).json({ error: "Email en uso" });
     }  
-  }catch(error){}
+  }catch(error){
+    console.error("Algo salio mal! ",error);
+    return res.status(500).json({msg: "Error en el servidor"})
+  }
   
+  try{
   await bcrypt.genSalt(10)
     .then(async salt => {
       await bcrypt.hash(password, salt)
         .then(async hashPassword => {
           const currentDate = new Date();
-          const newPassword = {hashPassword}
+          console.log(typeof hashPassword)
           await db.execute({
             sql: 
             `INSERT INTO users 
@@ -45,18 +54,17 @@ export const registerUser = async(req, res) => {
               email: email,
               username: name,
               lastname: lastname,
-              newPassword,
+              newPassword: hashPassword,
               created_at: currentDate.toLocaleString('es-CO', {timeZone: 'America/Bogota'}), 
-              updated_at: currentDate.toLocaleString('es-CO', {timeZone: 'America/Bogota'}) }
+              updated_at: currentDate.toLocaleString('es-CO', {timeZone: 'America/Bogota'}) 
+            }
           })
-            .catch(error => {
-              console.error("Algo salió mal! ", error);
-            })
         })
     })
-    .catch(error => {
-      console.error("Algo salio mal! ", error);
-    });
+  }catch(error) {
+    console.error("No fue posible crear el usuario! ", error);
+    return res.status(500).json({error: "Error en el servidor!"})
+  }
 
   
   await db.execute({
@@ -72,6 +80,7 @@ export const registerUser = async(req, res) => {
       res.status(200).json({_id: id, name, email, token})
     })
     .catch(error => {
-      console.error('Algo salio mal! ', error);
+      console.error('Error al final! ', error);
+      return res.status(500).json({msg: "Error en el servidor"})
     })
 };
