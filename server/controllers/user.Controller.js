@@ -100,11 +100,38 @@ export const loginUser = async(req, res) =>{
         }
           const token = createJWT(user.rows[0].id);
     
-          return res.status(200).json({_id: user.rows[0].id, name: user.rows[0].name, email, token})
+          return res.status(200).json({_id: user.rows[0].id, name: user.rows[0].username, email, token})
         })
       })
   } catch (error) {
     console.error(error);
       return res.status(500).json({error: "Error en el servidor"})
   }
+}
+
+export const findUser = async(req, res) => {
+  const { id } = req.params
+
+  await db.execute({
+    sql: `SELECT * FROM users WHERE id = (:id);`,
+    args: {id}  
+  })
+    .then(user => {
+      return res.status(200).json(user.rows)
+    })
+    .catch(error => {
+      console.error("Algo salio mal! ", error);
+    })
+}
+
+export const findAllUsers = async(req, res) => {
+  await db.execute(`
+    SELECT * FROM users;
+  `)
+    .then(users =>{
+      return res.status(200).json(users.rows)
+    })
+    .catch(error =>{
+      console.error("Algo salió mal!", error);
+    })
 }

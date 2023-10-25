@@ -1,6 +1,6 @@
 import { createClient } from "@libsql/client";
 import dotenv from "dotenv";
-import { CreateDatabases } from "../models/index.js";
+import { CreateDatabases } from "../controllers/middleware/models/index.js";
 dotenv.config()
 
 export const db = createClient({

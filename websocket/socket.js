@@ -1,6 +1,6 @@
 import { exit } from "node:process";
-import { db } from "../db/database.js";
-import { io } from "../index.js";
+import { db } from "../server/db/database.js";
+import { io } from "../server/index.js";
 
 
 export const chatFunctions = async (socket) => {
