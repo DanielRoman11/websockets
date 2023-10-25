@@ -3,9 +3,6 @@ import { createJWT } from "../helpers/tokens.js";
 import bcrypt from "bcrypt";
 import validator from "validator";
 
-export const register = (req, res) => {
-  res.send("Holaa")
-}
 
 export const registerUser = async(req, res) => {
   const { name, lastname, email, password, reppassword } = req.body;
@@ -87,5 +84,30 @@ export const registerUser = async(req, res) => {
 export const loginUser = async(req, res) =>{
   const { email, password } = req.body;
 
-  
+  if(validator.isEmpty(password) || validator.isEmpty(email)) return res.status(400).json({error: "Todos los campos son necesarios"})
+
+  try {
+    await db.execute({
+      sql: `SELECT id, username, email, password FROM users WHERE email = (:email);`,
+      args: {email}
+    })
+      .then(async user => {
+        console.log(user);
+        if(user.rows[0] === undefined)
+          return res.status(400).json({error: "Email no registrado"})
+
+        await bcrypt.compare(password, user.rows[0].password)
+          .then(isValidPassword =>{
+            if(!isValidPassword){ 
+              res.status(400).json({error: "Contraseña o correo incorrecto"})
+          }
+            const token = createJWT(user.rows[0].id);
+
+            return res.status(200).json({_id: user.rows[0].id, name: user.rows[0].name, email, token})
+          })
+      })
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({error: "Error en el servidor"})
+  }
 }

@@ -58,6 +58,6 @@ export async function CreateDatabases() {
     )
     .catch(error => {
       console.log("Error al cargar las tablas: ", error);
-      exit(2)
+      exit(0)
     })
 }

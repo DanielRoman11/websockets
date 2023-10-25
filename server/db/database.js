@@ -1,5 +1,4 @@
 import { createClient } from "@libsql/client";
-import { exit } from "node:process";
 import dotenv from "dotenv";
 import { CreateDatabases } from "../models/index.js";
 dotenv.config()
@@ -14,7 +13,6 @@ export async function dbConnection() {
     .then(console.log("Conexión a la Database 🙆‍♂️"))
     .catch(error =>{
       console.error("No hay conexión a la Database: ", error)
-      exit(2);
     })
 }
 
