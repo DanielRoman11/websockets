@@ -10,7 +10,7 @@ export const registerUser = async(req, res) => {
   if(validator.isEmpty(name) || validator.isEmpty(lastname) || validator.isEmpty(email) || validator.isEmpty(password)) return res.status(400).json({error: 'Todos los campos son requeridos...'});
   if(!validator.isEmail(email)) return res.status(400).json({error: 'Eso no parece un email'});
   if(!validator.isStrongPassword(password)) return res.status(400).json({error: 'El password es muy débil'});
-  if(password.toString() !== reppassword.toString()) return res.status(400).json({error: 'Las contraseñas no coinciden!'});
+  if(password !== reppassword) return res.status(400).json({error: 'Las contraseñas no coinciden!'});
 
   try {
     const user = await db.execute({
@@ -22,10 +22,9 @@ export const registerUser = async(req, res) => {
       `,
       args: { email }
     })
-    console.log(email);
-    console.log(user);
+
     if (user.rows[0] !== undefined) { 
-      if (user.rows[0].email.toString() === email) {
+      if (user.rows[0].email === email) {
         return res.status(400).json({ error: "Email en uso" });
       }  
     }
@@ -40,7 +39,6 @@ export const registerUser = async(req, res) => {
         await bcrypt.hash(password, salt)
           .then(async hashPassword => {
             const currentDate = new Date();
-            console.log(typeof hashPassword)
             await db.execute({
               sql: 
               `INSERT INTO users 
@@ -65,15 +63,15 @@ export const registerUser = async(req, res) => {
   
   await db.execute({
     sql:`
-    SELECT 
-      id
-    FROM users
-    WHERE email = (:email);`,
+      SELECT 
+        id
+      FROM users
+      WHERE email = (:email);`,
     args: { email }
   })
-    .then(id => {
-      const token = createJWT(id);
-      res.status(200).json({_id: id, name, email, token})
+    .then(user => {
+      const token = createJWT(user.rows[0].id);
+      return res.status(200).json({_id: user.rows[0].id, name, email, token})
     })
     .catch(error => {
       console.error('Error al final! ', error);
