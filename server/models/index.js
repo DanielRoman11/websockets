@@ -1,5 +1,4 @@
 import { db } from "../db/database.js";
-import { exit } from "node:process";
 
 export async function CreateDatabases() {
   db.executeMultiple(`

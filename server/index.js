@@ -1,4 +1,4 @@
-import express, { urlencoded } from "express";
+import express from "express";
 import { Server } from "socket.io";
 import logger from "morgan";
 import cookieParser from "cookie-parser";
