@@ -3,6 +3,11 @@ import { db } from "../server/db/database.js";
 import { io } from "../server/index.js";
 
 
+export const chatSeverInteractions = async(socket) => {
+  console.log(`Se ha conectado un usuario!🙆‍♂️`);
+  console.log(socket.id);
+}
+
 export const chatFunctions = async (socket) => {
   console.log(`Se ha conectado un usuario!🙆‍♂️`);
 
@@ -54,4 +59,3 @@ export const chatFunctions = async (socket) => {
   });
 }
 
-// export 

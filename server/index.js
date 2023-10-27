@@ -28,7 +28,7 @@ app.use(cors({
 }));
 
 app.use("/api/users", auth);
-app.use("/broadcast", chat);
+// app.use("/broadcast", chat);
 
 const server = createServer(app);
 export const io = new Server(server, {
