@@ -9,7 +9,7 @@ dotenv.config()
 
 import { dbConnection } from "./db/database.js";
 import auth from "./routes/user.Routes.js";
-import chat from "./routes/chat.Routes.js";
+import chat from "../websocket/routes/chat.Routes.js";
 
 
 dbConnection();
