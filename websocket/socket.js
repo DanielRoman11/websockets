@@ -2,7 +2,7 @@ import { io } from  "./index.js";
 import { db } from "./db/database.js";
 
 export const chatFunctions = async (socket) => {
-  console.log(`Se ha conectado un usuario!🙆‍♂️`);
+  console.log(`Se ha conectado un usuario!🙆‍♂️ ${socket.id}`);
 
   socket.on('msg', function(from, msg) {
     console.log(from, msg);
@@ -30,6 +30,7 @@ export const chatFunctions = async (socket) => {
     console.log(`Se ha desconectado un usuario! 🙅‍♂️`);
   })
   socket.on("disconnecting", (reason) => {
+    console.log(reason);
     for (const room of socket.rooms) {
       if (room !== socket.id) {
         socket.to(room).emit("user has left", socket.id);
@@ -45,7 +46,7 @@ export const chatFunctions = async (socket) => {
       args: { msg, timestamp: currentDate.toLocaleString('es-CO', {timeZone: 'America/Bogota'}), chat_id: '1', user_id: '1' }
     })
       .then(result => {
-        io.emit('chat message', msg, result.lastInsertRowid.toString(), currentDate.toLocaleTimeString('es-CO', {timeZone: 'America/Bogota'}))
+        io.emit('chat message', msg, result.lastInsertRowid.toString(), currentDate.toLocaleTimeString('es-CO', {timeZone: 'America/Bogota'}), socket.id)
 
         console.log("mensaje: ", msg, ", hora: ", currentDate.toLocaleTimeString('es-CO', {timeZone: 'America/Bogota'}));
       })

@@ -52,25 +52,27 @@ article > p{
   padding: 0.5rem 1rem;
   margin: 0.5rem 0 !important;
   border-radius: 15px;
-  width: 200px;
+  width: 400px;
+  height: fit-content;
   font-weight: 600;
   color: var(--text-light-color);
 }
 article#messages p:nth-child(2n + 1){
   background: #333333;
   border: 2px solid var(--text-light-color) !important;
-  align-self: flex-end;
+  /* align-self: flex-end; */
 }
 article#messages p:nth-child(2n + 2){
   background: #747373;
   border: 2px solid var(--third-gradient) !important;
 }
+/* 
 article#messages p:nth-child(3n+1){
   border: 2px solid #111a27 !important;
 }
 article#messages p:nth-child(3n+2){
   border: 2px solid var(--first-gradient) !important;
-}
+} */
 form#form{
   height: 4rem;
   width: 100%;

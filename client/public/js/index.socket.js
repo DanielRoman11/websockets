@@ -19,12 +19,12 @@ form.addEventListener('submit', (e) => {
   }
 });
 
-socket.on('chat message', (msg, serverOffset, hora) => {
+socket.on('chat message', (msg, serverOffset, hora, usuario) => {
   const item = document.createElement('p');
   const time =document.createElement('span');
   
   item.textContent = msg;
-  time.textContent = hora;
+  time.textContent = usuario + " "+hora;
 
   item.appendChild(time)
   messages.appendChild(item);

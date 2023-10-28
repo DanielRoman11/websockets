@@ -20,9 +20,9 @@ app.use("/", chat)
 
 const server = createServer(app);
 export const io = new Server(server, {
-  // cors: {
-  //   origin: "http://127.0.0.1:5500"
-  // },
+  cors: {
+    origin: "http://127.0.0.1:5500"
+  },
   connectionStateRecovery: {}
 }); 
 
