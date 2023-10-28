@@ -117,7 +117,10 @@ export const findUser = async(req, res) => {
     args: {id}  
   })
     .then(user => {
-      return res.status(200).json(user.rows)
+      if(user.rows[0] === undefined)
+          return res.status(400).json({error: "Usuario no registrado"})
+      
+      return res.status(200).json(user.rows[0])
     })
     .catch(error => {
       console.error("Algo salio mal! ", error);
@@ -140,14 +143,16 @@ export const deleteUser= async(req, res) => {
   const { id } = req.params;
 
   console.log(id);
+
   try {
-    await db.execute({
-      sql: `SELECT id FROM users WHERE id = (:id)`,
-      args: id
+    const user = await db.execute({
+      sql: `SELECT id FROM users WHERE id = (:id);`,
+      args: {id}
     })
-    if(user.rows[0] === undefined)
-      return res.status(400).json({error: "Email no registrado"})
     
+    if(user.rows[0] === undefined)
+      return res.status(400).json({error: "Usuario no registrado"})
+  
     await db.execute({
       sql: `DELETE FROM users WHERE id = (:id)`,
       args: {id}

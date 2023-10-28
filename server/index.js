@@ -27,13 +27,7 @@ app.use(cors({
 }));
 
 app.use("/api/users", auth);
-// app.use("/broadcast", chat);
 
-const server = createServer(app);
-export const io = new Server(server, {
-  connectionStateRecovery: {}
-}); 
-
-server.listen(port, () =>{
+app.listen(port, () => {
   console.log(`Server en el puerto: ${process.env.BACKEND_URL}`);
 });
