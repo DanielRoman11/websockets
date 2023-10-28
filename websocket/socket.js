@@ -1,14 +1,12 @@
 import { io } from  "./index.js";
 import { db } from "./db/database.js";
 
-
-export const chatSeverInteractions = async(socket) => {
-  console.log(`Se ha conectado un usuario!🙆‍♂️`);
-  console.log(socket.id);
-}
-
 export const chatFunctions = async (socket) => {
   console.log(`Se ha conectado un usuario!🙆‍♂️`);
+
+  socket.on('msg', function(from, msg) {
+    console.log(from, msg);
+  })
 
   if (!socket.recovered) {
     const offset = socket.handshake.auth.serverOffset ?? 0 
@@ -44,7 +42,7 @@ export const chatFunctions = async (socket) => {
 
     await db.execute({
       sql: 'INSERT INTO messages (content, timestamp, chat_id, user_id ) VALUES (:msg, :timestamp, :chat_id, :user_id);',
-      args: { msg, timestamp: currentDate.toLocaleString('es-CO', {timeZone: 'America/Bogota'}), chat_id: '2', user_id: '1' }
+      args: { msg, timestamp: currentDate.toLocaleString('es-CO', {timeZone: 'America/Bogota'}), chat_id: '1', user_id: '1' }
     })
       .then(result => {
         io.emit('chat message', msg, result.lastInsertRowid.toString(), currentDate.toLocaleTimeString('es-CO', {timeZone: 'America/Bogota'}))

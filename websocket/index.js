@@ -15,7 +15,9 @@ const port = process.env.PORT || 4000
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static('public'));
 app.use(logger('dev'));
+
 app.use("/", chat)
+
 const server = createServer(app);
 export const io = new Server(server, {
   // cors: {

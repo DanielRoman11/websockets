@@ -11,7 +11,7 @@ export const db = createClient({
 
 export async function dbConnection() {
   db.sync()
-    .then(console.log("Conexión a la Database 🙆‍♂️"))
+    .then(console.log("Database conectada"))
     .catch(error =>{
       console.error("No hay conexión a la Database: ", error)
     })

@@ -2,6 +2,12 @@ import { db } from "../db/database.js";
 
 export async function CreateDatabases() {
   db.executeMultiple(`
+  -- Crear la tabla de chats
+    CREATE TABLE IF NOT EXISTS chats (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      chat_name TEXT NOT NULL,
+      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    );  
   -- Crear la tabla de usuarios
     CREATE TABLE IF NOT EXISTS users (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -11,24 +17,6 @@ export async function CreateDatabases() {
       password TEXT NOT NULL,
       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
       updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-    );
-  -- Crear la tabla de mensajes
-    CREATE TABLE IF NOT EXISTS messages (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      chat_id INTEGER NOT NULL,
-      user_id INTEGER NOT NULL,
-      content TEXT NOT NULL,
-      timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-      FOREIGN KEY (chat_id) REFERENCES chats(id),
-      FOREIGN KEY (user_id) REFERENCES users(id)
-    );
-  -- Crear la tabla de participantes de chat
-    CREATE TABLE IF NOT EXISTS chat_participants (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      chat_id INTEGER NOT NULL,
-      user_id INTEGER NOT NULL,
-      FOREIGN KEY (chat_id) REFERENCES chats(id),
-      FOREIGN KEY (user_id) REFERENCES users(id)
     );
   -- Crear la tabla de notificaciones
     CREATE TABLE IF NOT EXISTS notifications (
