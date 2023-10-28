@@ -135,3 +135,28 @@ export const findAllUsers = async(req, res) => {
       console.error("Algo salió mal!", error);
     })
 }
+
+export const deleteUser= async(req, res) => {
+  const { id } = req.params;
+
+  console.log(id);
+  try {
+    await db.execute({
+      sql: `SELECT id FROM users WHERE id = (:id)`,
+      args: id
+    })
+    if(user.rows[0] === undefined)
+      return res.status(400).json({error: "Email no registrado"})
+    
+    await db.execute({
+      sql: `DELETE FROM users WHERE id = (:id)`,
+      args: {id}
+    })
+      .then((result) => {
+        console.log(`Usuario de id ${id} elimiando! `, result.rowsAffected);
+        return res.status(204)
+      })
+  } catch (error) {
+    console.error("Algo salio mal! ",error);
+  }
+}

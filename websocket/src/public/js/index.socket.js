@@ -1,9 +1,7 @@
-import { io } from "https://cdn.socket.io/4.3.0/socket.io.esm.min.js";
+import { io } from "https://cdn.socket.io/4.6.0/socket.io.min.js";
 
 const socket = io({
   auth: {
-    token: '123',
-    username: 'danielroman',
     serverOffset: 0
   }
 });
