@@ -1,4 +1,3 @@
-import { exit } from "node:process";
 import { io } from  "./index.js";
 import { db } from "./db/database.js";
 
@@ -26,7 +25,6 @@ export const chatFunctions = async (socket) => {
           socket.emit('chat message', row.content, row.id.toString(), row.timestamp.slice(12))})
       }).catch((err) => {
         console.error(err);
-        exit(1)
       });
   }
 

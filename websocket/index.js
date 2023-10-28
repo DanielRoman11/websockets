@@ -3,11 +3,9 @@ import { Server } from "socket.io";
 import { createServer } from 'node:http';
 import logger from "morgan";
 import dotenv from "dotenv";
-import cors from "cors";
 dotenv.config()
 import { dbConnection } from "./db/database.js";
 import chat from "./routes/chat.Routes.js";
-
 
 dbConnection();
 
@@ -17,13 +15,12 @@ const port = process.env.PORT || 4000
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static('public'));
 app.use(logger('dev'));
-app.use("/broadcast", chat);
-
+app.use("/", chat)
 const server = createServer(app);
 export const io = new Server(server, {
-  cors: {
-    origin: "http://127.0.0.1:5500"
-  },
+  // cors: {
+  //   origin: "http://127.0.0.1:5500"
+  // },
   connectionStateRecovery: {}
 }); 
 
