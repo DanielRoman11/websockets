@@ -1,4 +1,4 @@
-// window.location.href = "/client/register.html";
+
 
 document.getElementById("login-form").addEventListener("submit", function (event) {
   event.preventDefault(); // Evitar que se envíe el formulario por defecto
@@ -16,9 +16,9 @@ document.getElementById("login-form").addEventListener("submit", function (event
   })
     .then((response) => response.json())
     .then((data) => {
-      // Aquí puedes manejar la respuesta del servidor, como redirigir al usuario o mostrar un mensaje.
+      window.location.href = "/client/index.html";
     })
     .catch((error) => {
-      console.error("Error:", error);
+      console.error("Algo salió mal! ", error);
     });
 });

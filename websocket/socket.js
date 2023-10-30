@@ -19,7 +19,7 @@ export const chatFunctions = async (socket) => {
     })
       .then((result) => {
         result.rows.map(row => {
-          
+          console.log(result);
           socket.emit('chat message', row.content, row.id.toString(), row.timestamp.slice(12))})
       }).catch((err) => {
         console.error(err);

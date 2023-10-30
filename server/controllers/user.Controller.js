@@ -100,12 +100,17 @@ export const loginUser = async(req, res) =>{
         }
           const token = createJWT(user.rows[0].id);
     
-          return res.status(200).json({_id: user.rows[0].id, name: user.rows[0].username, email, token})
+          return res
+          .cookie("_token", token, {
+            httpOnly: true
+          })
+          .status(200)
+          .json({_id: user.rows[0].id, name: user.rows[0].username, email, token})
         })
       })
   } catch (error) {
     console.error(error);
-      return res.status(500).json({error: "Error en el servidor"})
+    return res.status(500).json({error: "Error en el servidor"});
   }
 }
 

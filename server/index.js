@@ -19,10 +19,10 @@ app.use(express.static('public'));
 app.use(cookieParser());
 app.use(express.json());
 app.use(logger('dev'));
-app.use(cors({
-  origin: `${process.env.BACKEND_URL}`,
-  optionsSuccessStatus: 200 || 204
-}));
+// app.use(cors({
+//   origin: [`${process.env.BACKEND_URL}`, "http://127.0.0.1:5500"],
+//   optionsSuccessStatus: 200 || 204
+// }));
 
 app.use("/api/users", auth);
 

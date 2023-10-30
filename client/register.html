@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" type="text/css" href="/css/auth.css">
+  <link rel="stylesheet" type="text/css" href="/client/public/css/auth.css">
   <script type="module" src="public/css/auth.css"></script>
   <title>ChatTest</title>
 </head>
@@ -17,7 +17,17 @@
         <ul id="serverErrors"></ul>
       </div>      
       <div class="row clearfix" >
-          <form id="form" method="post" novalidate>
+          <form id="form" novalidate>
+          </div>
+          <div class="row clearfix">
+            <div class="col_half">
+              <input type="text" name="name" id="name" placeholder="First Name" />
+            </div>
+            <div class="col_half">
+              <input type="text" name="lastname" id="lastname" placeholder="Last Name" required />
+            </div>
+          </div>
+        </div>
             <input type="hidden" name="_csrf" value="" id="csrf-token">
             <div class="input_field">
               <input type="email" name="email" id="email" placeholder="Email" required />
@@ -27,17 +37,7 @@
             </div>
             <div class="input_field">
               <input type="password" name="reppassword" id="reppassword" placeholder="Re-type Password" required />
-            </div>
-              <div class="row clearfix">
-                <div class="col_half">
-                  <input type="text" name="name" id="name" placeholder="First Name" />
-                </div>
-                <div class="col_half">
-                  <input type="text" name="lastname" id="lastname" placeholder="Last Name" required />
-                </div>
-              </div>
-            </div>
-            <input class="button" type="submit" value="Registrarse" />
+            <input style="margin-top: 12px;" class="button" type="submit" value="Registrarse" />
           </form>
       </div>
     </article>
